@@ -40,7 +40,7 @@ class Heightmap implements IHeightmap
           }
           
         for(int x=0;x<getGridXSize();x++) for(int y=0;y<getGridYSize();y++)
-          vMap[x][y]=(vMap[x][y]-minh)/(maxh-minh);
+          vMap[x][y]=(vMap[x][y]-minh)/(maxh-minh)*5;
       }
       
     Heightmap(Gameplay gameplay)

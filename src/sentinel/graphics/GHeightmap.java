@@ -44,7 +44,7 @@ class GHeightmap
                 colors.put(i+n*3+2,blue);
                 vertices.put(i+n*3+0,(float)(x+((n&1)^(n>>1))));
                 vertices.put(i+n*3+1,(float)(y+(n>>1)));
-                vertices.put(i+n*3+2,vMap[x+((n&1)^(n>>1))][y+(n>>1)]*20);
+                vertices.put(i+n*3+2,vMap[x+((n&1)^(n>>1))][y+(n>>1)]);
               }
           }
       }

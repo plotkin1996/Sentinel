@@ -54,9 +54,6 @@ public class Graphics implements GLEventListener
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
         camera.applyTransform(gl);
-        gl.glTranslatef(0.0f, -25.0f,-25.0f);
-        gl.glRotatef(270.0f,1.0f, 0.0f,0.0f);
-        gl.glTranslatef(-25.0f, -25.0f,0.0f);
         heightmap.render(gl);
         gl.glFlush();
       }

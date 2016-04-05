@@ -34,9 +34,9 @@ public class Main
               System.exit(0);
             }
         });
-      window.setSize(640,480);
       window.setTitle("Sentinel");
       window.setVisible(true); 
+      window.setMaximized(true,true);
       window.setPointerVisible(false);
       window.addGLEventListener(graphics);
       inputHandler.attachWindow(window);

@@ -37,8 +37,8 @@ class InputHandler implements MouseListener, KeyListener
     
     public void mouseMoved(MouseEvent e)
       {
-        float dy=(float)(e.getX()-window.getWidth()/2)/10;
-        float dx=(float)(e.getY()-window.getHeight()/2)/10;
+        float dx=-(float)(e.getX()-window.getWidth()/2)/10;
+        float dy=-(float)(e.getY()-window.getHeight()/2)/10;
         window.warpPointer(window.getWidth()/2,window.getHeight()/2);
         gameplay.look(dx,dy);
       }
