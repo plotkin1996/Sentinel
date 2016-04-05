@@ -1,0 +1,51 @@
+<project>
+  <property name="project.name" value="Sentinel"/>
+  <property name="project.main.class" value="sentinel.Main"/>
+  <property name="src.dir" value="src"/>
+  <property name="lib.dir" value="lib"/>
+  <property name="build.dir" value="build"/>
+  <property name="classes.dir" value="${build.dir}/classes"/>
+  
+  <path id="classpath">
+    <pathelement path="${lib.dir}/jogl-all-noawt.jar"/>
+    <pathelement path="${lib.dir}/gluegen-rt.jar"/>
+  </path>
+  
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+  </target>
+  
+  <target name="mkdirs">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${classes.dir}"/>
+  </target>
+  
+  <target name="compile" depends="mkdirs">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>
+  </target>
+  
+  <target name="run" depends="compile">
+    <java classname="${project.main.class}" fork="true">
+      <classpath>
+        <path refid="classpath"/>
+        <path location="${classes.dir}"/>
+      </classpath>
+    </java>
+  </target>
+  
+  <target name="build-jar-core" depends="mkdirs, compile">
+    <local name="jar.file"/>
+    <property name="jar.file" value="${build.dir}/${project.name}-core.jar"/>
+    <manifestclasspath jarfile="${jar.file}" property="manifest.class.path">
+      <classpath refid="classpath"/>
+    </manifestclasspath>
+    <jar destfile="${jar.file}" basedir="${classes.dir}">
+      <manifest>
+        <attribute name="Main-Class" value="${project.main.class}"/>
+        <attribute name="Class-Path" value="${manifest.class.path}"/>
+      </manifest>
+    </jar>
+  </target>
+  
+</project>
