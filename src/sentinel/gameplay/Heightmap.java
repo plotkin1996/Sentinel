@@ -8,6 +8,7 @@ class Heightmap implements IHeightmap
     
     public int getMapXSize() {return gameplay.getMapXSize();}
     public int getMapYSize() {return gameplay.getMapYSize();}
+    public float getMaxHeight() {return gameplay.getMaxHeight();};
     
     @Override
     public int getGridXSize() {return getMapXSize()+1;}
@@ -22,7 +23,7 @@ class Heightmap implements IHeightmap
       {
         for(int i=gameplay.getNumHills();i>0;i--)
           {
-            int x0=0,y0=0,x1=getGridXSize(),y1=getGridYSize();
+            int x0=1,y0=1,x1=getMapXSize(),y1=getMapYSize();
             do{
                 int xa=gameplay.getRandom()%(x1-x0)+x0;
                 int ya=gameplay.getRandom()%(y1-y0)+y0;
@@ -41,13 +42,17 @@ class Heightmap implements IHeightmap
     private void normalizeVGrid()
       {
         float minh=Float.POSITIVE_INFINITY,maxh=Float.NEGATIVE_INFINITY;
-        for(int x=0;x<getGridXSize();x++) for(int y=0;y<getGridYSize();y++)
+        int maxX=0,maxY=0;
+        for(int x=0;x<getMapXSize();x++) for(int y=0;y<getMapYSize();y++)
           {
             if(minh>vGrid[x][y]) minh=vGrid[x][y];
-            if(maxh<vGrid[x][y]) maxh=vGrid[x][y];
+            if(maxh<vGrid[x][y]) {maxh=vGrid[x][y];maxX=x;maxY=y;}
           }
         for(int x=0;x<getGridXSize();x++) for(int y=0;y<getGridYSize();y++)
-          vGrid[x][y]=(vGrid[x][y]-minh)/(maxh-minh)*gameplay.getMaxHeight();
+          vGrid[x][y]=(vGrid[x][y]-minh)/(maxh-minh)*getMaxHeight()*0.9f;
+        vGrid[maxX][maxY]=vGrid[maxX+1][maxY]=
+          vGrid[maxX][maxY+1]=vGrid[maxX+1][maxY+1]=
+            getMaxHeight();
       }
     
     List<Platform> pList;

@@ -40,7 +40,7 @@ class GHeightmap
             for(int n=0;n<4;n++)
               {
                 colors.put(i+n*3+0,red);
-                colors.put(i+n*3+1,vGrid[x+((n&1)^(n>>1))][y+(n>>1)]);
+                colors.put(i+n*3+1,vGrid[x+((n&1)^(n>>1))][y+(n>>1)]/iHmap.getMaxHeight());
                 colors.put(i+n*3+2,blue);
                 vertices.put(i+n*3+0,(float)(x+((n&1)^(n>>1))));
                 vertices.put(i+n*3+1,(float)(y+(n>>1)));

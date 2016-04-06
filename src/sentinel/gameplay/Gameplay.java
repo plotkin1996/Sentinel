@@ -16,8 +16,7 @@ public class Gameplay
     
     List<Platform> pList;
     
-    private int numHills=20;
-    public int getNumHills() {return numHills;}
+    public int getNumHills() {return 20;}
     
     public void look(float dx,float dy)
       {player.look(dx,dy);}
@@ -38,6 +37,6 @@ public class Gameplay
         heightmap=new Heightmap(this);
         pList=heightmap.getPList();
         player=new Player(this);
-        player.moveToPlatform(pList.get(0));
+        player.moveToPlatform(pList.get(0));//pList.size()-1));
       }
   }
