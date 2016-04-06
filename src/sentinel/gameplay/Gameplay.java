@@ -18,7 +18,7 @@ public class Gameplay
     
     public int getNumHills() {return 20;}
     
-    public void look(float dx,float dy)
+    public void look(double dx,double dy)
       {player.look(dx,dy);}
     
     private long rnd=1;

@@ -2,10 +2,10 @@ package sentinel.representation;
 
 public interface ICamera
   {
-    public float getPitch();
-    public float getYaw();
+    public double getPitch();
+    public double getYaw();
     
-    public float getXPos();
-    public float getYPos();
-    public float getZPos();
+    public double getXPos();
+    public double getYPos();
+    public double getZPos();
   }

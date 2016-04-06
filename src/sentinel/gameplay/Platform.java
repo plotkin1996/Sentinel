@@ -5,13 +5,13 @@ class Platform implements Comparable<Platform>
     private int x,y;
     public int getX() {return x;}
     public int getY() {return y;}
-    private float z;
-    public float getZ() {return z;}
+    private double z;
+    public double getZ() {return z;}
     
     @Override
     public int compareTo(Platform o)
       {return (int)Math.signum(getZ()-o.getZ());}
     
-    Platform(int x,int y,float z)
+    Platform(int x,int y,double z)
       {this.x=x;this.y=y;this.z=z;}
   }

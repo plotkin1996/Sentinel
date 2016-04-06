@@ -2,8 +2,8 @@ package sentinel.representation;
 
 public interface IHeightmap
   {
-    public float[][] getVGrid();
+    public double[][] getVGrid();
     public int getGridXSize();
     public int getGridYSize();
-    public float getMaxHeight();
+    public double getMaxHeight();
   }

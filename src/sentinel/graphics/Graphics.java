@@ -67,10 +67,10 @@ public class Graphics implements GLEventListener
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)
       { 
         GL2 gl = drawable.getGL().getGL2();
-        float aspect = (float)width/(float)height;
-        float h = (float)height/(float)width;
+        double aspect = (double)width/(double)height;
+        double h = (double)height/(double)width;
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluPerspective(30.0f,aspect,0.1f,50.0f);
+        glu.gluPerspective(30.0,aspect,0.1,50.0);
       }
   }

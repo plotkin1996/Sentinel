@@ -8,10 +8,10 @@ class Player implements ICamera
     Player(Gameplay gameplay)
       {this.gameplay=gameplay;}
     
-    private float pitch=90.0f,yaw;
-    public float getPitch(){return pitch;}
-    public float getYaw(){return yaw;}
-    void look(float dx,float dy)
+    private double pitch=90.0f,yaw;
+    public double getPitch(){return pitch;}
+    public double getYaw(){return yaw;}
+    void look(double dx,double dy)
       {
         if(pitch+dy>15.0f&&pitch+dy<165.0f) pitch+=dy;
         yaw+=dx;
@@ -20,11 +20,11 @@ class Player implements ICamera
       }
     
     Platform platform;
-    public float getXPos()
-      {return (float)platform.getX()+0.5f;}
-    public float getYPos()
-      {return (float)platform.getY()+0.5f;}
-    public float getZPos()
+    public double getXPos()
+      {return (double)platform.getX()+0.5f;}
+    public double getYPos()
+      {return (double)platform.getY()+0.5f;}
+    public double getZPos()
       {return platform.getZ()+2.0f;}
     
     void moveToPlatform(Platform platform)

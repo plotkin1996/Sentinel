@@ -13,8 +13,8 @@ class GCamera
       
     void applyTransform(GL2 gl)
       {
-        gl.glRotatef(-camera.getPitch(),1.0f,0.0f,0.0f);
-        gl.glRotatef(-camera.getYaw(),0.0f,0.0f,1.0f);
-        gl.glTranslatef(-camera.getXPos(),-camera.getYPos(),-camera.getZPos());
+        gl.glRotated(-camera.getPitch(),1.0,0.0,0.0);
+        gl.glRotated(-camera.getYaw(),0.0,0.0,1.0);
+        gl.glTranslated(-camera.getXPos(),-camera.getYPos(),-camera.getZPos());
       }
   }

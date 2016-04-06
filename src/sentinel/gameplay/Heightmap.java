@@ -8,16 +8,16 @@ class Heightmap implements IHeightmap
     
     public int getMapXSize() {return gameplay.getMapXSize();}
     public int getMapYSize() {return gameplay.getMapYSize();}
-    public float getMaxHeight() {return gameplay.getMaxHeight();};
+    public double getMaxHeight() {return gameplay.getMaxHeight();};
     
     @Override
     public int getGridXSize() {return getMapXSize()+1;}
     @Override
     public int getGridYSize() {return getMapYSize()+1;}
   
-    float[][] vGrid;
+    double[][] vGrid;
     @Override
-    public float[][] getVGrid(){return vGrid;}
+    public double[][] getVGrid(){return vGrid;}
     
     private void generateVGrid()
       {
@@ -41,7 +41,7 @@ class Heightmap implements IHeightmap
     
     private void normalizeVGrid()
       {
-        float minh=Float.POSITIVE_INFINITY,maxh=Float.NEGATIVE_INFINITY;
+        double minh=Double.POSITIVE_INFINITY,maxh=Double.NEGATIVE_INFINITY;
         int maxX=0,maxY=0;
         for(int x=0;x<getMapXSize();x++) for(int y=0;y<getMapYSize();y++)
           {
@@ -77,7 +77,7 @@ class Heightmap implements IHeightmap
     Heightmap(Gameplay gameplay)
       {
         this.gameplay=gameplay;
-        vGrid=new float[getGridXSize()][getGridYSize()];
+        vGrid=new double[getGridXSize()][getGridYSize()];
         generateVGrid();
         generatePlatforms();
       }
