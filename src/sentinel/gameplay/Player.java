@@ -19,11 +19,15 @@ class Player implements ICamera
         if(yaw<0) yaw+=360.0f;
       }
     
+    Platform platform;
     public float getXPos()
-      {return 25.5f;}
+      {return (float)platform.getX()+0.5f;}
     public float getYPos()
-      {return 25.5f;}
+      {return (float)platform.getY()+0.5f;}
     public float getZPos()
-      {return 1.0f;}
+      {return platform.getZ()+2.0f;}
+    
+    void moveToPlatform(Platform platform)
+      {this.platform=platform;}
     
   }

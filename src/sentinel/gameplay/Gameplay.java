@@ -1,16 +1,20 @@
 package sentinel.gameplay;
 import sentinel.representation.*;
+import java.util.*;
 
 public class Gameplay
   {
     private int mapXSize=50,mapYSize=50;
     public int getMapXSize() {return mapXSize;}
     public int getMapYSize() {return mapYSize;}
+    public int getMaxHeight() {return 5;}
     
     private Heightmap heightmap;
     public IHeightmap getIHeightmap(){return heightmap;}
     private Player player;
     public ICamera getICamera(){return player;}
+    
+    List<Platform> pList;
     
     private int numHills=20;
     public int getNumHills() {return numHills;}
@@ -18,7 +22,7 @@ public class Gameplay
     public void look(float dx,float dy)
       {player.look(dx,dy);}
     
-    private long rnd=3;
+    private long rnd=1;
     public int getRandom()
       {
         //Xorshift.
@@ -32,6 +36,8 @@ public class Gameplay
     public Gameplay()
       {
         heightmap=new Heightmap(this);
+        pList=heightmap.getPList();
         player=new Player(this);
+        player.moveToPlatform(pList.get(0));
       }
   }
