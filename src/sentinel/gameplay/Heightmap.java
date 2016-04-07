@@ -1,5 +1,6 @@
 package sentinel.gameplay;
 import sentinel.representation.IHeightmap;
+import sentinel.util.DDA;
 import java.util.*;
 
 class Heightmap implements IHeightmap
@@ -73,6 +74,38 @@ class Heightmap implements IHeightmap
             }
         Collections.sort(pList);
       }  
+    
+    private double checkQuadIntersection(int x,int y,
+        double rpx,double rpy,double rpz,
+        double rx,double ry,double rz)
+      {
+        double h0=vGrid[x][y],hx=vGrid[x+1][y],hy=vGrid[x][y+1];
+        double ldotn=rx*(hx-h0)+ry*(hy-h0)+rz;
+        if(ldotn==0) return -1.0;
+        double dist=-((x-rpx)*(hx-h0)+(y-rpy)*(hy-h0)+(h0-rpz))/ldotn;
+        double px=rpx+dist*rx-x,py=rpy+dist*ry-y;
+        if(px<0||px>1.0||py<0||py>1.0) return -1.0;
+        return dist;
+      }
+    
+    Platform pick(double rpx,double rpy,double rpz,double pitch,double yaw,Double dist)
+      {
+        yaw=yaw*Math.PI/180;pitch=pitch*Math.PI/180;
+        if(dist==null) dist=new Double(0.0);
+        double rx=Math.sin(-yaw)*Math.sin(pitch);
+        double ry=Math.cos(yaw)*Math.sin(pitch);
+        double rz=Math.cos(-pitch);
+        DDA dda=new DDA(rpx,rpy,rx,ry);
+        for(;;)
+          {
+            if(dda.getX()<0||dda.getX()>=getMapXSize()||
+              dda.getY()<0||dda.getY()>=getMapYSize()) return null;
+            dist=checkQuadIntersection(dda.getX(),dda.getY(),rpx,rpy,rpz,rx,ry,rz);
+            if(dist!=-1.0)
+              return pMap[dda.getX()][dda.getY()];
+            dda.step();
+          }
+      }
     
     Heightmap(Gameplay gameplay)
       {

@@ -31,7 +31,11 @@ class InputHandler implements MouseListener, KeyListener
     public void mouseDragged(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {} 
     public void mouseExited(MouseEvent e) {}
-    public void mousePressed(MouseEvent e) {} 
+    public void mousePressed(MouseEvent e)
+      {
+        gameplay.click();
+      }
+       
     public void mouseReleased(MouseEvent e) {}
     public void mouseWheelMoved(MouseEvent e) {}
     
