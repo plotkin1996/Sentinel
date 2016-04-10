@@ -22,31 +22,48 @@ class GHeightmap
     
     DoubleBuffer vertices;
     DoubleBuffer colors;
+    int buffPos;
+    private void addVertex(
+        double r,double b,
+        int x, int y)
+      {
+        colors.put(buffPos,r);
+        colors.put(buffPos+1,vGrid[x][y]/iHmap.getMaxHeight());
+        colors.put(buffPos+2,b);
+        vertices.put(buffPos,x);
+        vertices.put(buffPos+1,y);
+        vertices.put(buffPos+2,vGrid[x][y]);
+        buffPos+=3;
+      }
+    
     private void generateArrays()
       {
         vertices=Buffers.newDirectDoubleBuffer((xSize-1)*(ySize-1)*6*3);
         colors=Buffers.newDirectDoubleBuffer((xSize-1)*(ySize-1)*6*3);
+        buffPos=0;
         
         for(int x=0;x<xSize-1;x++) for(int y=0;y<ySize-1;y++)
           {
-            int i=(x+(xSize-1)*y)*18;
-            double red=
+            double r=
               (vGrid[x][y]==vGrid[x+1][y]&&
               vGrid[x][y+1]==vGrid[x+1][y+1]&&
               vGrid[x+1][y]==vGrid[x][y+1])?
                 0.0:1.0;
-            double blue=(double)((x^y)&1);
-            for(int n=0;n<6;n++)
-              {
-                int xpos=x+(n==0||n==3||n==4?0:1);
-                int ypos=y+(n==0||n==2||n==3?0:1);
-                colors.put(i+n*3+0,red);
-                colors.put(i+n*3+1,vGrid[xpos][ypos]/iHmap.getMaxHeight());
-                colors.put(i+n*3+2,blue);
-                vertices.put(i+n*3+0,(double)xpos);
-                vertices.put(i+n*3+1,(double)ypos);
-                vertices.put(i+n*3+2,vGrid[xpos][ypos]);
-              }
+            double b=(double)((x^y)&1);
+            
+            int top=0;
+            double toph=-1.0;
+            for(int n=0;n<4;n++) if(vGrid[x+n%2][y+(n/2)%2]>toph)
+              {top=n;toph=vGrid[x+n%2][y+(n/2)%2];}
+            
+            int topx=top%2,topy=(top/2)%2;
+            addVertex(r,b,x+topx,y+topy);
+            addVertex(r,b,x+(topx+1)%2,y+topy);
+            addVertex(r,b,x+(topx+1)%2,y+(topy+1)%2);
+            
+            addVertex(r,b,x+topx,y+topy);
+            addVertex(r,b,x+topx,y+(topy+1)%2);
+            addVertex(r,b,x+(topx+1)%2,y+(topy+1)%2);
           }
       }
     
