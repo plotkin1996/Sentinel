@@ -57,8 +57,9 @@ class Heightmap implements IHeightmap
       }
     
     List<Platform> pList;
-    Platform[][] pMap;
     List<Platform> getPList() {return pList;}
+    Platform[][] pMap;
+    Platform[][] getPMap() {return pMap;}
     
     private void generatePlatforms()
       {
@@ -80,11 +81,12 @@ class Heightmap implements IHeightmap
         double rx,double ry,double rz)
       {
         double h0=vGrid[x][y],hx=vGrid[x+1][y],hy=vGrid[x][y+1];
-        double ldotn=rx*(hx-h0)+ry*(hy-h0)+rz;
-        if(ldotn==0) return -1.0;
-        double dist=-((x-rpx)*(hx-h0)+(y-rpy)*(hy-h0)+(h0-rpz))/ldotn;
+        double ldotn=rx*(h0-hx)+ry*(h0-hy)+rz;
+        
+        if(ldotn>=0) return -1.0;
+        double dist=-((rpx-x)*(h0-hx)+(rpy-y)*(h0-hy)+(rpz-h0))/ldotn;
         double px=rpx+dist*rx-x,py=rpy+dist*ry-y;
-        if(px<0||px>1.0||py<0||py>1.0) return -1.0;
+        if(px<0||px>1||py<0||py>1) return -1.0;
         return dist;
       }
     
@@ -94,17 +96,17 @@ class Heightmap implements IHeightmap
         if(dist==null) dist=new Double(0.0);
         double rx=Math.sin(-yaw)*Math.sin(pitch);
         double ry=Math.cos(yaw)*Math.sin(pitch);
-        double rz=Math.cos(-pitch);
-        DDA dda=new DDA(rpx,rpy,rx,ry);
-        for(;;)
+        double rz=-Math.cos(pitch);
+        
+        for(DDA dda=new DDA(rpx,rpy,rx,ry);
+            dda.getX()>=0&&dda.getX()<getMapXSize()&&
+            dda.getY()>=0&&dda.getY()<getMapYSize();
+          dda.step())
           {
-            if(dda.getX()<0||dda.getX()>=getMapXSize()||
-              dda.getY()<0||dda.getY()>=getMapYSize()) return null;
             dist=checkQuadIntersection(dda.getX(),dda.getY(),rpx,rpy,rpz,rx,ry,rz);
-            if(dist!=-1.0)
-              return pMap[dda.getX()][dda.getY()];
-            dda.step();
+            if(dist!=-1.0) return pMap[dda.getX()][dda.getY()];
           }
+        return null;
       }
     
     Heightmap(Gameplay gameplay)

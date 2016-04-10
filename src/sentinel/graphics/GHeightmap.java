@@ -24,26 +24,28 @@ class GHeightmap
     DoubleBuffer colors;
     private void generateArrays()
       {
-        vertices=Buffers.newDirectDoubleBuffer((xSize-1)*(ySize-1)*4*3);
-        colors=Buffers.newDirectDoubleBuffer((xSize-1)*(ySize-1)*4*3);
+        vertices=Buffers.newDirectDoubleBuffer((xSize-1)*(ySize-1)*6*3);
+        colors=Buffers.newDirectDoubleBuffer((xSize-1)*(ySize-1)*6*3);
         
         for(int x=0;x<xSize-1;x++) for(int y=0;y<ySize-1;y++)
           {
-            int i=(x+(xSize-1)*y)*12;
+            int i=(x+(xSize-1)*y)*18;
             double red=
               (vGrid[x][y]==vGrid[x+1][y]&&
               vGrid[x][y+1]==vGrid[x+1][y+1]&&
               vGrid[x+1][y]==vGrid[x][y+1])?
-                0.0f:1.0f;
+                0.0:1.0;
             double blue=(double)((x^y)&1);
-            for(int n=0;n<4;n++)
+            for(int n=0;n<6;n++)
               {
+                int xpos=x+(n==0||n==3||n==4?0:1);
+                int ypos=y+(n==0||n==2||n==3?0:1);
                 colors.put(i+n*3+0,red);
-                colors.put(i+n*3+1,vGrid[x+((n&1)^(n>>1))][y+(n>>1)]/iHmap.getMaxHeight());
+                colors.put(i+n*3+1,vGrid[xpos][ypos]/iHmap.getMaxHeight());
                 colors.put(i+n*3+2,blue);
-                vertices.put(i+n*3+0,(double)(x+((n&1)^(n>>1))));
-                vertices.put(i+n*3+1,(double)(y+(n>>1)));
-                vertices.put(i+n*3+2,vGrid[x+((n&1)^(n>>1))][y+(n>>1)]);
+                vertices.put(i+n*3+0,(double)xpos);
+                vertices.put(i+n*3+1,(double)ypos);
+                vertices.put(i+n*3+2,vGrid[xpos][ypos]);
               }
           }
       }
@@ -54,7 +56,7 @@ class GHeightmap
         gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
         gl.glColorPointer(3,GL2.GL_DOUBLE,0,colors);
         gl.glVertexPointer(3,GL2.GL_DOUBLE,0,vertices);
-        gl.glDrawArrays(GL2.GL_QUADS,0,(xSize-1)*(ySize-1)*4);
+        gl.glDrawArrays(GL.GL_TRIANGLES,0,(xSize-1)*(ySize-1)*2*3);
         gl.glDisableClientState(GL2.GL_COLOR_ARRAY);
         gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
       }

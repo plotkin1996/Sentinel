@@ -4,10 +4,10 @@ import java.util.*;
 
 public class Gameplay
   {
-    private int mapXSize=50,mapYSize=50;
+    private int mapXSize=100,mapYSize=100;
     public int getMapXSize() {return mapXSize;}
     public int getMapYSize() {return mapYSize;}
-    public int getMaxHeight() {return 25;}
+    public int getMaxHeight() {return 5;}
     
     private Heightmap heightmap;
     public IHeightmap getIHeightmap(){return heightmap;}
@@ -49,6 +49,6 @@ public class Gameplay
         cursor=new Cursor();
         pList=heightmap.getPList();
         player=new Player(this);
-        player.moveToPlatform(pList.get(0));//pList.size()-1));
+        player.moveToPlatform(heightmap.getPMap()[2][2]);//pList.get(0));//pList.size()-1));
       }
   }
