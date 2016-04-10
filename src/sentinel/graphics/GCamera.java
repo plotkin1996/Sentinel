@@ -6,12 +6,7 @@ import com.jogamp.opengl.glu.*;
 
 class GCamera
   {
-    private ICamera camera;
-    
-    void attach(ICamera camera)
-      {this.camera=camera;}
-      
-    void applyTransform(GL2 gl)
+    static void applyTransform(GL2 gl,ICamera camera)
       {
         gl.glRotated(-camera.getPitch(),1.0,0.0,0.0);
         gl.glRotated(-camera.getYaw(),0.0,0.0,1.0);

@@ -29,7 +29,12 @@ public class Gameplay
     
     public void click()
       {
-        if(cursor.isEnabled()) player.moveToPlatform(cursor.getPlatform());
+        if(cursor.isEnabled()) 
+          {
+            player.moveToPlatform(cursor.getPlatform());
+            cursor.pointAt(heightmap.pick(player.getXPos(),player.getYPos(),player.getZPos(),
+              player.getPitch(),player.getYaw(),null));
+          }
       }
     
     private long rnd=1;
@@ -49,6 +54,6 @@ public class Gameplay
         cursor=new Cursor();
         pList=heightmap.getPList();
         player=new Player(this);
-        player.moveToPlatform(heightmap.getPMap()[2][2]);//pList.get(0));//pList.size()-1));
+        player.moveToPlatform(pList.get(0));
       }
   }
