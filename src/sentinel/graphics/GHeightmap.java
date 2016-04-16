@@ -28,7 +28,7 @@ class GHeightmap
         int x, int y)
       {
         colors.put(buffPos,r);
-        colors.put(buffPos+1,vGrid[x][y]/iHmap.getMaxHeight());
+        colors.put(buffPos+1,b);
         colors.put(buffPos+2,b);
         vertices.put(buffPos,x);
         vertices.put(buffPos+1,y);

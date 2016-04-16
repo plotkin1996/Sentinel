@@ -21,9 +21,14 @@ class InputHandler implements MouseListener, KeyListener
     public void keyPressed(KeyEvent e) {}
     
     public void keyReleased(KeyEvent e)
-      {
-        if(e.getKeyCode()==KeyEvent.VK_ESCAPE)
-          window.destroy();
+      { 
+        switch(e.getKeyCode())
+          {
+            case KeyEvent.VK_ESCAPE:window.destroy();break;
+            case KeyEvent.VK_SPACE:gameplay.consume();break;
+            case KeyEvent.VK_1:gameplay.buildTree();break;
+            case KeyEvent.VK_2:gameplay.buildStone();break;
+          }
       }
 
 //==============================================================

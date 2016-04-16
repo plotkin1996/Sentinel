@@ -4,9 +4,13 @@ import sentinel.representation.ICamera;
 
 class Player implements ICamera
   {
-    private Gameplay gameplay;
-    Player(Gameplay gameplay)
-      {this.gameplay=gameplay;}
+    private int energy;
+    public int getEnergy() {return energy;}
+    public void addEnergy(int delta)
+      {energy+=delta;}
+    
+    Player(int energy)
+      {this.energy=energy;}
     
     private double pitch=90.0f,yaw;
     public double getPitch(){return pitch;}
@@ -26,6 +30,7 @@ class Player implements ICamera
       {return (double)platform.getY()+0.5f;}
     public double getZPos()
       {return platform.getZ()+2.0f;}
+    
     
     void moveToPlatform(Platform platform)
       {this.platform=platform;}

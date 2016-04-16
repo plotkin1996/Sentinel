@@ -15,7 +15,7 @@ class HeadUpDisplay
       }
       
     static void render(GL2 gl,double pos)
-      {
+      { 
         drawCrosshair(gl);
         gl.glBegin(GL2.GL_QUADS);
           gl.glVertex2d(-0.9,pos+0.1);
