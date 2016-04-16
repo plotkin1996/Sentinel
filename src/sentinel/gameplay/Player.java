@@ -9,30 +9,44 @@ class Player implements ICamera
     public void addEnergy(int delta)
       {energy+=delta;}
     
-    Player(int energy)
-      {this.energy=energy;}
+    private Robot robot;
+    public void incarnate(Robot robot)
+      {
+        if(this.robot!=null) this.robot.deactivate();
+        this.robot=robot;
+        robot.activate();
+      }
+    
+    Player(int energy,Robot robot)
+      {
+        this.energy=energy;
+        incarnate(robot);
+      }
     
     private double pitch=90.0f,yaw;
     public double getPitch(){return pitch;}
     public double getYaw(){return yaw;}
     void look(double dx,double dy)
       {
-        if(pitch+dy>15.0f&&pitch+dy<165.0f) pitch+=dy;
+        if(pitch+dy>15.0f&&pitch+dy<180.0f) pitch+=dy;
         yaw+=dx;
         if(yaw>=360.0f) yaw-=360.0f;
         if(yaw<0) yaw+=360.0f;
       }
     
-    Platform platform;
+    //Platform platform;
     public double getXPos()
-      {return (double)platform.getX()+0.5f;}
+      {return robot.getX();}
     public double getYPos()
-      {return (double)platform.getY()+0.5f;}
+      {return robot.getY();}
     public double getZPos()
-      {return platform.getZ()+2.0f;}
+      {return robot.getZ()+robot.getHeight();}
     
-    
-    void moveToPlatform(Platform platform)
-      {this.platform=platform;}
-    
+    //Platform platform;
+    public double getXDir()
+      {return Math.sin(-yaw*Math.PI/180)*Math.sin(pitch*Math.PI/180);}
+    public double getYDir()
+      {return Math.cos(yaw*Math.PI/180)*Math.sin(pitch*Math.PI/180);}
+    public double getZDir()
+      {return -Math.cos(pitch*Math.PI/180);}
   }

@@ -83,28 +83,23 @@ class Heightmap implements IHeightmap
         double h0=vGrid[x][y],hx=vGrid[x+1][y],hy=vGrid[x][y+1];
         double ldotn=rx*(h0-hx)+ry*(h0-hy)+rz;
         
-        if(ldotn>=0) return -1.0;
+        if(ldotn>=0) return Double.POSITIVE_INFINITY;
         double dist=-((rpx-x)*(h0-hx)+(rpy-y)*(h0-hy)+(rpz-h0))/ldotn;
         double px=rpx+dist*rx-x,py=rpy+dist*ry-y;
-        if(px<0||px>1||py<0||py>1) return -1.0;
+        if(px<0||px>1||py<0||py>1) return Double.POSITIVE_INFINITY;
         return dist;
       }
     
-    Platform pick(double rpx,double rpy,double rpz,double pitch,double yaw,Double dist)
+    Platform pick(double rpx,double rpy,double rpz,double rx,double ry,double rz,Double dist)
       {
-        yaw=yaw*Math.PI/180;pitch=pitch*Math.PI/180;
         if(dist==null) dist=new Double(0.0);
-        double rx=Math.sin(-yaw)*Math.sin(pitch);
-        double ry=Math.cos(yaw)*Math.sin(pitch);
-        double rz=-Math.cos(pitch);
-        
         for(DDA dda=new DDA(rpx,rpy,rx,ry);
             dda.getX()>=0&&dda.getX()<getMapXSize()&&
             dda.getY()>=0&&dda.getY()<getMapYSize();
           dda.step())
           {
             dist=checkQuadIntersection(dda.getX(),dda.getY(),rpx,rpy,rpz,rx,ry,rz);
-            if(dist!=-1.0) return pMap[dda.getX()][dda.getY()];
+            if(dist!=Double.POSITIVE_INFINITY) return pMap[dda.getX()][dda.getY()];
           }
         return null;
       }

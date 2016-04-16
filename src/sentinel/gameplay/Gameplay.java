@@ -9,11 +9,13 @@ public class Gameplay
     public int getNumHills() {return 100;}
     public int getMapXSize() {return mapXSize;}
     public int getMapYSize() {return mapYSize;}
-    public int getMaxHeight() {return 20;}
-    public int getStartingEnergy() {return 50;}
-    public int getTreeCount() {return 50;}
+    public int getMaxHeight() {return 30;}
+    public int getStartingEnergy() {return 3;}
+    public int getTreeCount() {return 100;}
     public int getTreeEnergy() {return 1;}
     public int getStoneEnergy() {return 2;}
+    public int getRobotEnergy() {return 3;}
+    public double getCameraHeight() {return 2.0;}
     
     private Heightmap heightmap;
     public IHeightmap getIHeightmap(){return heightmap;}
@@ -40,12 +42,16 @@ public class Gameplay
     public Iterator<? extends IThing> getStones()
       {return stoneBag.getThings().iterator();}
     
+    private RobotBag robotBag;
+    public Iterator<? extends IRobot> getRobots()
+      {return robotBag.getThings().iterator();}
+    
     
     public void look(double dx,double dy)
       {
         player.look(dx,dy);
         cursor.pointAt(heightmap.pick(player.getXPos(),player.getYPos(),player.getZPos(),
-          player.getPitch(),player.getYaw(),null));
+          player.getXDir(),player.getYDir(),player.getZDir(),null));
       }
     
     public void consume()
@@ -62,43 +68,39 @@ public class Gameplay
         finally {unlock();}
       }
     
-    public void buildTree()
+    private void build(IThingBag bag)
       {
         lock();
         try
           {
-            if(player.getEnergy()<getTreeEnergy()) return;
+            if(player.getEnergy()<bag.getEnergy()) return;
             Platform platform=cursor.getPlatform();
             if(platform==null) return;
-            if(!treeBag.build(platform)) return;
-            player.addEnergy(-getTreeEnergy());
+            if(!bag.build(platform)) return;
+            player.addEnergy(-bag.getEnergy());
           }
         finally {unlock();}
       }
     
-    public void buildStone()
-      {
-        lock();
-        try
-          {
-            if(player.getEnergy()<getStoneEnergy()) return;
-            Platform platform=cursor.getPlatform();
-            if(platform==null) return;
-            if(!stoneBag.build(platform)) return;
-            player.addEnergy(-getStoneEnergy());
-          }
-        finally {unlock();}
-      }
+    public void buildTree() {build(treeBag);}
+    public void buildStone() {build(stoneBag);}
+    public void buildRobot() {build(robotBag);}
     
-    
-    public void click()
+    public void incarnate()
       {
-        if(cursor.isEnabled()) 
+        double bestDist=Double.POSITIVE_INFINITY;
+        Robot candidate=null;
+        heightmap.pick(player.getXPos(),player.getYPos(),player.getZPos(),
+          player.getXDir(),player.getYDir(),player.getZDir(),bestDist);
+        for(Robot robot:robotBag.getThings())
           {
-            player.moveToPlatform(cursor.getPlatform());
-            cursor.pointAt(heightmap.pick(player.getXPos(),player.getYPos(),player.getZPos(),
-              player.getPitch(),player.getYaw(),null));
+            double dist=robot.pick(player.getXPos(),player.getYPos(),player.getZPos(),
+              player.getXDir(),player.getYDir(),player.getZDir());
+            System.out.println(dist);
+            if(dist<bestDist) {dist=bestDist;candidate=robot;}
+            
           }
+        if(candidate!=null) player.incarnate(candidate);
       }
     
     private long rnd=3213;
@@ -121,16 +123,17 @@ public class Gameplay
         fpList=new ArrayList<Platform>(pList);
         
         treeBag=new SimpleThingBag(this,false,1.5,getTreeEnergy());
-        for(int i=0;i<getTreeCount();)
+        for(int i=0;i<getTreeCount();i++)
           {
             int n=getRandom()%fpList.size();
-            if(treeBag.build(fpList.get(n))) i++;
+            treeBag.build(fpList.get(n));
             fpList.remove(n);
           }
           
         stoneBag=new SimpleThingBag(this,true,0.5,getStoneEnergy());
+        robotBag=new RobotBag(this,getCameraHeight()+0.5,getRobotEnergy());
+        robotBag.build(fpList.get(0));
         
-        player=new Player(getStartingEnergy());
-        player.moveToPlatform(heightmap.getPMap()[1][0]);
+        player=new Player(getStartingEnergy(),robotBag.getThings().iterator().next());
       }
   }

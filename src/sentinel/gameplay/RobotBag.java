@@ -3,42 +3,39 @@ package sentinel.gameplay;
 import java.util.HashMap;
 import java.util.Collection;
 
-class SimpleThingBag implements IThingBag
+class RobotBag implements IThingBag
   {
-    private HashMap<Integer,SimpleThing> things;
-    private int ctr;
-    private boolean isStackable;
     private double height;
     private int energy;
     
     @Override
     public int getEnergy() {return energy;}
     
+    private HashMap<Integer,Robot> things;
+    private int ctr;
+    
     @Override
     public boolean build(Platform platform)
       {
-        SimpleThing tree=new SimpleThing(this,ctr,isStackable,height,energy);
+        Robot tree=new Robot(this,ctr,height,energy);
         if(!platform.build(tree)) return false;
         things.put(ctr++,tree);
         return true;
       }
     
-    public Collection<SimpleThing> getThings()
+    public Collection<Robot> getThings()
       {return things.values();}
     
     @Override
     public void remove(int id)
-      {
-        things.remove(id);
-      }
+      {things.remove(id);}
     
     Gameplay gameplay;
-    SimpleThingBag(Gameplay gameplay,boolean isStackable,double height,int energy)
+    RobotBag(Gameplay gameplay,double height,int energy)
       {
         this.gameplay=gameplay;
-        things=new HashMap<Integer,SimpleThing>();ctr=0;
-        this.isStackable=isStackable;
         this.height=height;
         this.energy=energy;
+        things=new HashMap<Integer,Robot>();ctr=0;
       }
   }

@@ -28,6 +28,7 @@ class InputHandler implements MouseListener, KeyListener
             case KeyEvent.VK_SPACE:gameplay.consume();break;
             case KeyEvent.VK_1:gameplay.buildTree();break;
             case KeyEvent.VK_2:gameplay.buildStone();break;
+            case KeyEvent.VK_3:gameplay.buildRobot();break;
           }
       }
 
@@ -36,10 +37,7 @@ class InputHandler implements MouseListener, KeyListener
     public void mouseDragged(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {} 
     public void mouseExited(MouseEvent e) {}
-    public void mousePressed(MouseEvent e)
-      {
-        gameplay.click();
-      }
+    public void mousePressed(MouseEvent e) {gameplay.incarnate();}
        
     public void mouseReleased(MouseEvent e) {}
     public void mouseWheelMoved(MouseEvent e) {}
