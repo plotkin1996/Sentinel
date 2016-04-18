@@ -1,6 +1,7 @@
 package sentinel.gameplay;
 
 import sentinel.representation.IThing;
+import sentinel.util.MutableInt;
 
 abstract class Thing implements IThing
   {
@@ -17,12 +18,14 @@ abstract class Thing implements IThing
     
     abstract boolean isStackable();
     abstract double getHeight();
+    abstract int getEnergy();
+    abstract boolean isProtected();
     
-    public int consume()
-      {
-        bag.remove(id);
-        return 0;
-      }
+    public int consume() {remove();return 0;}
+    
+    protected void remove() {bag.remove(id);}
+    
+    abstract public boolean eliminate(MutableInt e);
     
     private IThingBag bag;
     private int id;

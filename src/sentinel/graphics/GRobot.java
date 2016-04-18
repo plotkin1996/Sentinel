@@ -6,104 +6,9 @@ import java.util.Iterator;
 
 class GRobot
   {
-    void draw(GL2 gl,IRobot robot)
+    static void draw(GL2 gl,IRobot robot)
       {
-        
-        gl.glBegin(GL2.GL_QUADS);
-          gl.glColor3d(1.0,1.0,0.0);
-          
-          gl.glVertex3d(0.1,0.1,1.6);
-          gl.glVertex3d(0.1,-0.1,1.6);
-          gl.glVertex3d(-0.1,-0.1,1.6);
-          gl.glVertex3d(-0.1,0.1,1.6);
-          
-          gl.glVertex3d(0.1,0.1,1.3);
-          gl.glVertex3d(0.1,-0.1,1.3);
-          gl.glVertex3d(-0.1,-0.1,1.3);
-          gl.glVertex3d(-0.1,0.1,1.3);
-          
-          gl.glColor3d(0.8,0.8,0.0);
-          
-          gl.glVertex3d(0.1,0.1,1.6);
-          gl.glVertex3d(-0.1,0.1,1.6);
-          gl.glVertex3d(-0.05,0.1,1.3);
-          gl.glVertex3d(0.05,0.1,1.3);
-          
-          gl.glVertex3d(0.1,-0.1,1.6);
-          gl.glVertex3d(-0.1,-0.1,1.6);
-          gl.glVertex3d(-0.05,-0.1,1.3);
-          gl.glVertex3d(0.05,-0.1,1.3);
-          
-          gl.glColor3d(0.4,0.4,0.0);
-          
-          gl.glVertex3d(0.1,0.1,1.6);
-          gl.glVertex3d(0.1,-0.1,1.6);
-          gl.glVertex3d(0.1,-0.05,1.3);
-          gl.glVertex3d(0.1,0.05,1.3);
-          
-          gl.glVertex3d(-0.1,0.1,1.6);
-          gl.glVertex3d(-0.1,-0.1,1.6);
-          gl.glVertex3d(-0.1,-0.05,1.3);
-          gl.glVertex3d(-0.1,0.05,1.3);
-        gl.glEnd();
-        
-        gl.glBegin(GL.GL_TRIANGLES);
-          gl.glColor3d(0.4,0.4,0.0);
-          
-          gl.glVertex3d(0.1,0.05,1.3);
-          gl.glVertex3d(0.05,0.1,1.3);
-          gl.glVertex3d(0.2,0.2,-1.0);
-          
-          gl.glVertex3d(-0.1,0.05,1.3);
-          gl.glVertex3d(-0.05,0.1,1.3);
-          gl.glVertex3d(-0.2,0.2,-1.0);
-          
-          gl.glVertex3d(0.1,-0.05,1.3);
-          gl.glVertex3d(0.05,-0.1,1.3);
-          gl.glVertex3d(0.2,-0.2,-1.0);
-          
-          gl.glVertex3d(-0.1,-0.05,1.3);
-          gl.glVertex3d(-0.05,-0.1,1.3);
-          gl.glVertex3d(-0.2,-0.2,-1.0);
-          
-          
-          gl.glColor3d(0.8,0.8,0.0);
-          
-          gl.glVertex3d(0.1,0.05,1.3);
-          gl.glVertex3d(0.1,0.1,1.6);
-          gl.glVertex3d(0.2,0.2,-1.0);
-          
-          gl.glVertex3d(-0.1,0.05,1.3);
-          gl.glVertex3d(-0.1,0.1,1.6);
-          gl.glVertex3d(-0.2,0.2,-1.0);
-          
-          gl.glVertex3d(0.1,-0.05,1.3);
-          gl.glVertex3d(0.1,-0.1,1.6);
-          gl.glVertex3d(0.2,-0.2,-1.0);
-          
-          gl.glVertex3d(-0.1,-0.05,1.3);
-          gl.glVertex3d(-0.1,-0.1,1.6);
-          gl.glVertex3d(-0.2,-0.2,-1.0);
-          
-          
-          gl.glColor3d(0.6,0.6,0.0);
-          
-          gl.glVertex3d(0.05,0.1,1.3);
-          gl.glVertex3d(0.1,0.1,1.6);
-          gl.glVertex3d(0.2,0.2,-1.0);
-          
-          gl.glVertex3d(-0.05,0.1,1.3);
-          gl.glVertex3d(-0.1,0.1,1.6);
-          gl.glVertex3d(-0.2,0.2,-1.0);
-          
-          gl.glVertex3d(0.05,-0.1,1.3);
-          gl.glVertex3d(0.1,-0.1,1.6);
-          gl.glVertex3d(0.2,-0.2,-1.0);
-          
-          gl.glVertex3d(-0.05,-0.1,1.3);
-          gl.glVertex3d(-0.1,-0.1,1.6);
-          gl.glVertex3d(-0.2,-0.2,-1.0);
-        gl.glEnd();
+        Util.drawLegs(gl,1.0,1.0,0.0);
         
         if(robot.isActive()) return;
         gl.glTranslated(0.0,0.0,2.0);
@@ -149,7 +54,7 @@ class GRobot
         gl.glEnd();
       }
     
-    void render(GL2 gl,Iterator<? extends IRobot> things)
+    static void render(GL2 gl,Iterator<? extends IRobot> things)
       {
         while(things.hasNext())
           {

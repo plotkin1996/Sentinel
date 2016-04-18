@@ -12,7 +12,6 @@ public class Graphics implements GLEventListener
     private GHeightmap heightmap;
     private GTree gTree;
     private GStone gStone;
-    private GRobot gRobot;
     GLU glu;
   
     public void attachGameplay(Gameplay gameplay)
@@ -26,7 +25,6 @@ public class Graphics implements GLEventListener
         this.heightmap=new GHeightmap();
         this.gTree=new GTree();
         this.gStone=new GStone();
-        this.gRobot=new GRobot();
       }
     
     public void setOpenGLCaps(GLCapabilities caps)
@@ -76,6 +74,7 @@ public class Graphics implements GLEventListener
     public void display(GLAutoDrawable drawable)
       {
         gameplay.lock();
+        gameplay.runLogic();
         if(gameplay==null) return;
         GL2 gl = drawable.getGL().getGL2();
         setUpFor3D(gl);
@@ -84,9 +83,10 @@ public class Graphics implements GLEventListener
         GCursor.render(gl,gameplay.getICursor());
         gTree.render(gl,gameplay.getTrees());
         gStone.render(gl,gameplay.getStones());
-        gRobot.render(gl,gameplay.getRobots());
+        GRobot.render(gl,gameplay.getRobots());
+        GSentinel.render(gl,gameplay.getSentinels());
         setUpForHUD(gl);
-        HeadUpDisplay.render(gl,-h);
+        HeadUpDisplay.render(gl,gameplay,-h);
         gl.glFlush();
         gameplay.unlock();
       }

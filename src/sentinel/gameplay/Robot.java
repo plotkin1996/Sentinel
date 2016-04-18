@@ -1,13 +1,17 @@
 package sentinel.gameplay;
 
 import sentinel.representation.IRobot;
+import sentinel.util.MutableInt;
 
 class Robot extends SimpleThing implements IRobot
   {
-    boolean isActive=false;
-    public boolean isActive() {return isActive;}
-    public void activate() {isActive=true;}
-    public void deactivate() {isActive=false;}
+    private Player player;
+    public boolean isActive() {return player!=null;}
+    public void setPlayer(Player player) {this.player=player;}
+    public void deactivate() {this.player=null;}
+    
+    private double cameraHeight;
+    public double getCameraHeight() {return cameraHeight;}
     
     public double pick
         (double rpx,double rpy,double rpz,
@@ -36,6 +40,15 @@ class Robot extends SimpleThing implements IRobot
         return super.consume();
       }
     
-    Robot(IThingBag bag,int id,double height,int energy)
-      {super(bag,id,false,height,energy);}
+    @Override
+    public boolean eliminate(MutableInt e)
+      {
+        if(!isActive()) return super.eliminate(e);
+        player.eliminate();
+        e.put(-1);
+        return false;
+      }
+    
+    Robot(IThingBag bag,int id,double cameraHeight,int energy)
+      {super(bag,id,false,0.0,energy);this.cameraHeight=cameraHeight;}
   }

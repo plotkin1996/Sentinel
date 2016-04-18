@@ -21,8 +21,7 @@
   </target>
   
   <target name="compile" depends="mkdirs">
-    <mkdir dir="${classes.dir}"/>
-    <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" debug="true"/>
   </target>
   
   <target name="run" depends="compile">

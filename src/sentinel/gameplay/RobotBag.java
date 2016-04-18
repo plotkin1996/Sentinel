@@ -2,6 +2,7 @@ package sentinel.gameplay;
 
 import java.util.HashMap;
 import java.util.Collection;
+import sentinel.util.*;
 
 class RobotBag implements IThingBag
   {
@@ -17,9 +18,9 @@ class RobotBag implements IThingBag
     @Override
     public boolean build(Platform platform)
       {
-        Robot tree=new Robot(this,ctr,height,energy);
-        if(!platform.build(tree)) return false;
-        things.put(ctr++,tree);
+        Robot robot=new Robot(this,ctr,height,energy);
+        if(!platform.build(robot)) return false;
+        things.put(ctr++,robot);
         return true;
       }
     
@@ -29,11 +30,21 @@ class RobotBag implements IThingBag
     @Override
     public void remove(int id)
       {things.remove(id);}
-    
-    Gameplay gameplay;
-    RobotBag(Gameplay gameplay,double height,int energy)
+      
+    public Robot pick(double rpx,double rpy,double rpz,
+      double rx,double ry,double rz, MutableDouble bestDist)
       {
-        this.gameplay=gameplay;
+        Robot result=null;
+        for(Robot robot:getThings())
+          {
+            double dist=robot.pick(rpx,rpy,rpz,rx,ry,rz);
+            if(dist<bestDist.get()) {bestDist.put(dist);result=robot;}
+          }
+        return result;
+      }
+    
+    RobotBag(double height,int energy)
+      {
         this.height=height;
         this.energy=energy;
         things=new HashMap<Integer,Robot>();ctr=0;

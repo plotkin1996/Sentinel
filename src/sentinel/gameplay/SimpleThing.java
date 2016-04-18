@@ -1,4 +1,5 @@
 package sentinel.gameplay;
+import sentinel.util.MutableInt;
 
 class SimpleThing extends Thing
   {
@@ -12,7 +13,19 @@ class SimpleThing extends Thing
     
     private int energy;
     @Override
-    public int consume() {super.consume();return energy;}
+    public int consume() {super.consume();return getEnergy();}
+    @Override
+    public int getEnergy() {return energy;}
+    @Override
+    public boolean isProtected() {return false;}
+    
+    @Override
+    public boolean eliminate(MutableInt e)
+      {
+        remove();
+        e.put(getEnergy());
+        return true;
+      }
     
     SimpleThing(IThingBag bag,int id,boolean isStackable,double height,int energy)
       {

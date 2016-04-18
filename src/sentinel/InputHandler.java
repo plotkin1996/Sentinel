@@ -29,6 +29,7 @@ class InputHandler implements MouseListener, KeyListener
             case KeyEvent.VK_1:gameplay.buildTree();break;
             case KeyEvent.VK_2:gameplay.buildStone();break;
             case KeyEvent.VK_3:gameplay.buildRobot();break;
+            case KeyEvent.VK_P:gameplay.togglePause();break;
           }
       }
 

@@ -1,6 +1,6 @@
 package sentinel.gameplay;
 import sentinel.representation.IHeightmap;
-import sentinel.util.DDA;
+import sentinel.util.*;
 import java.util.*;
 
 class Heightmap implements IHeightmap
@@ -50,10 +50,10 @@ class Heightmap implements IHeightmap
             if(maxh<vGrid[x][y]) {maxh=vGrid[x][y];maxX=x;maxY=y;}
           }
         for(int x=0;x<getGridXSize();x++) for(int y=0;y<getGridYSize();y++)
-          vGrid[x][y]=(vGrid[x][y]-minh)/(maxh-minh)*getMaxHeight()*0.9f;
+          vGrid[x][y]=(vGrid[x][y]-minh)/(maxh-minh)*getMaxHeight();
         vGrid[maxX][maxY]=vGrid[maxX+1][maxY]=
           vGrid[maxX][maxY+1]=vGrid[maxX+1][maxY+1]=
-            getMaxHeight();
+            getMaxHeight()+3.0;
       }
     
     List<Platform> pList;
@@ -90,15 +90,18 @@ class Heightmap implements IHeightmap
         return dist;
       }
     
-    Platform pick(double rpx,double rpy,double rpz,double rx,double ry,double rz,Double dist)
+    Platform pick(double rpx,double rpy,double rpz,double rx,double ry,double rz,MutableDouble distRes)
       {
-        if(dist==null) dist=new Double(0.0);
+        double norm=Math.sqrt(rx*rx+ry*ry+rz*rz);
+        rx=rx/norm;ry=ry/norm;rz=rz/norm;
+        double dist=Double.POSITIVE_INFINITY;
         for(DDA dda=new DDA(rpx,rpy,rx,ry);
             dda.getX()>=0&&dda.getX()<getMapXSize()&&
             dda.getY()>=0&&dda.getY()<getMapYSize();
           dda.step())
           {
             dist=checkQuadIntersection(dda.getX(),dda.getY(),rpx,rpy,rpz,rx,ry,rz);
+            if(distRes!=null) distRes.put(dist);
             if(dist!=Double.POSITIVE_INFINITY) return pMap[dda.getX()][dda.getY()];
           }
         return null;

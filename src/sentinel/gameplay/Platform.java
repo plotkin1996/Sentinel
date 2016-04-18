@@ -1,5 +1,6 @@
 package sentinel.gameplay;
 import java.util.ArrayList;
+import sentinel.util.MutableInt;
 
 class Platform implements Comparable<Platform>
   {
@@ -38,6 +39,20 @@ class Platform implements Comparable<Platform>
         stackHeight-=topThing().getHeight();
         things.remove(thingCount()-1);
         return energy;
+      }
+    
+    public int eliminate()
+      {
+        if(thingCount()==0||thingCount()==1&&topThing().getEnergy()==1)
+          return 0;
+        if(topThing().isProtected()) return 0;
+        MutableInt energy=new MutableInt(0);
+        if(topThing().eliminate(energy))
+          {
+            stackHeight-=topThing().getHeight();
+            things.remove(thingCount()-1);
+          }
+        return energy.get();
       }
     
     Platform(int x,int y,double z)
