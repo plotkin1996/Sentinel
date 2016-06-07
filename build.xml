@@ -47,4 +47,16 @@
     </jar>
   </target>
   
+  <target name="build-jar-standalone" depends="mkdirs, compile">
+    <local name="jar.file"/>
+    <property name="jar.file" value="${build.dir}/${project.name}.jar"/>
+    <jar destfile="${jar.file}" basedir="${classes.dir}">
+      <zipgroupfileset dir="${lib.dir}" includes="*.jar" />
+      <fileset dir="${src.dir}" includes="**/*.java" />
+      <manifest>
+        <attribute name="Main-Class" value="${project.main.class}"/>
+      </manifest>
+    </jar>
+  </target>
+  
 </project>

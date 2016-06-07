@@ -12,13 +12,13 @@ public class Gameplay
     public int getMapYSize() {return mapYSize;}
     public int getMaxHeight() {return 15;}
     public int getStartingEnergy() {return 7;}
-    public int getTreeCount() {return 100;}
+    public int getTreeCount() {return 50;}
     public int getTreeEnergy() {return 1;}
     public int getStoneEnergy() {return 2;}
     public int getRobotEnergy() {return 3;}
     public int getSentinelEnergy() {return 4;}
     public double getCameraHeight() {return 2.0;}
-    public double getRotationSpeed() {return 10;}
+    public double getRotationSpeed() {return 5;}
     public int getElimDelay() {return 1;}
     
     private Heightmap heightmap;
